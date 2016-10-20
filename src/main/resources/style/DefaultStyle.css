@@ -161,6 +161,14 @@
     -fx-background-color: #d2d2d2;
 }
 
+/*@@author A0135817B */
+.taskCard .dateHeading {
+    -fx-background-color: #ddd;
+    -fx-padding: 6px 10px;
+    -fx-font-size: 12px;
+}
+
+/*@@author A0135805H */
 .taskCard .pinImage {
     -fx-image: url("../images/star_gold.png");
     -fx-fit-to-width: 30px;
