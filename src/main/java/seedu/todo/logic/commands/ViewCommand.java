@@ -39,9 +39,13 @@ public class ViewCommand extends BaseCommand {
         TaskViewFilter[] viewArray = TaskViewFilter.values();
         String viewSpecified = view.getValue().trim().toLowerCase();
         
-        for (TaskViewFilter aViewArray : viewArray) {
-            if (aViewArray.getViewName().contentEquals(viewSpecified)) {
-                this.viewSpecified = aViewArray;
+        for (TaskViewFilter filter : viewArray) {
+            String viewName = filter.getViewName();
+            char shortcut = viewName.charAt(filter.getShortcutCharPosition());
+            boolean matchesShortcut = viewSpecified.length() == 1 && viewSpecified.charAt(0) == shortcut;
+            
+            if (viewName.contentEquals(viewSpecified) || matchesShortcut) {
+                this.viewSpecified = filter;
                 return;
             }
         }
@@ -52,7 +56,7 @@ public class ViewCommand extends BaseCommand {
 
     @Override
     public CommandResult execute() throws ValidationException {
-        model.view(viewSpecified.getFilter(), null);
+        model.view(viewSpecified.getFilter(), viewSpecified.getSort());
         EventsCenter.getInstance().post(new ChangeViewRequestEvent(viewSpecified));
         String feedback = String.format(ViewCommand.FEEDBACK_FORMAT, viewSpecified);
         return new CommandResult(feedback);
