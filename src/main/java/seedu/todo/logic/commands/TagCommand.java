@@ -188,7 +188,7 @@ public class TagCommand extends BaseCommand {
         if (isShowTags()){
             ShowTagsEvent tagsEvent = new ShowTagsEvent(model.getGlobalTagsList());
             EventsCenter.getInstance().post(tagsEvent);
-            return new CommandResult("Type [Enter] to dismiss.");
+            return new CommandResult("Press [Enter] to dismiss.");
         }
         return null;
     }
