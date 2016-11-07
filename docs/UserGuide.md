@@ -421,7 +421,7 @@ For example, typing just `e` could refer to `edit` or `exit` so a message as sho
 
 We also understand that it takes time for new users to remember all the commands. As such, we have a CommandPreview<sup>TM</sup> which tells you the parameters of the command you have to enter. For example, if you type `ad` the system will process your keypresses and display to you what commands it thinks you are going to execute and displays them as shown below:
 
-<img src="images/app_command_preview.png" width="700" alt="CommandPreview<sup>TM</sup>" />
+<img src="images/app_command_preview.png" width="700" alt="CommandPreview" />
 
 <figcaption>No need for remembering commands when Uncle Jim does the remembering for you.</figcaption>
 
