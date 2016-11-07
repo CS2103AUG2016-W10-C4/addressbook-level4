@@ -6,5 +6,8 @@
       "x" : 300,
       "y" : 100
     }
+  },
+  "storage" : {
+    "filePath" : ".\\src\\test\\data\\UserPrefsStorageTest\\TypicalUserPref.json"
   }
 }

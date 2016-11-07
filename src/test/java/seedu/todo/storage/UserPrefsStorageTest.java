@@ -12,10 +12,8 @@ import seedu.todo.model.UserPrefs;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 public class UserPrefsStorageTest {
 
@@ -34,12 +32,12 @@ public class UserPrefsStorageTest {
     }
 
     private UserPrefs readUserPrefs(String userPrefsFile) throws Exception {
-        return new UserPrefsStorage(getPrefsPath(userPrefsFile)).read();
+        return new UserPrefsStorage(userPrefsFile).read();
     }
 
     @Test
     public void readUserPrefs_missingFile_emptyResult() throws Exception {
-        assertEquals(new UserPrefs(), readUserPrefs("NonExistentFile.json"));
+        assertEquals(new UserPrefs(""), readUserPrefs("NonExistentFile.json"));
     }
 
     @Test
@@ -59,50 +57,45 @@ public class UserPrefsStorageTest {
 
     @Test
     public void readUserPrefs_fileInOrder_successfullyRead() throws Exception {
-        UserPrefs expected = new UserPrefs();
+        String filePath = getPrefsPath("TypicalUserPref.json");
+        UserPrefs expected = new UserPrefs(filePath);
         expected.setGuiSettings(1000, 500, 300, 100);
-        UserPrefs actual = readUserPrefs("TypicalUserPref.json");
+        UserPrefs actual = readUserPrefs(filePath);
         assertEquals(expected, actual);
     }
 
     @Test
     public void readUserPrefs_valuesMissingFromFile_defaultValuesUsed() throws Exception {
-        UserPrefs actual = readUserPrefs("EmptyUserPrefs.json");
-        assertEquals(new UserPrefs(), actual);
+        String filePath = getPrefsPath("EmptyUserPrefs.json");
+        System.out.println(filePath);
+        UserPrefs actual = readUserPrefs(filePath);
+        assertEquals(new UserPrefs(filePath), actual);
     }
 
     @Test
     public void readUserPrefs_extraValuesInFile_extraValuesIgnored() throws Exception {
-        UserPrefs expected = new UserPrefs();
+        String filePath = getPrefsPath("ExtraValuesUserPref.json");
+        UserPrefs expected = new UserPrefs(filePath);
         expected.setGuiSettings(1000, 500, 300, 100);
-        UserPrefs actual = readUserPrefs("ExtraValuesUserPref.json");
+        UserPrefs actual = readUserPrefs(filePath);
 
         assertEquals(expected, actual);
     }
 
     @Test
-    public void savePrefs_nullPrefs_assertionFailure() throws IOException {
-        thrown.expect(AssertionError.class);
-        saveUserPrefs(null, "SomeFile.json");
-    }
-
-    @Test
     public void saveUserPrefs_nullFilePath_assertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
-        saveUserPrefs(new UserPrefs(), null);
-    }
-
-    private void saveUserPrefs(UserPrefs userPrefs, String userPrefsFile) throws IOException {
-        new UserPrefsStorage(getPrefsPath(userPrefsFile)).save(userPrefs);
+        UserPrefs pref = new UserPrefs(null);
+        pref.save();
     }
 
     @Test
     public void saveUserPrefs_allInOrder_success() throws Exception {
 
-        UserPrefs original = new UserPrefs();
+        String pefsFilePath = testFolder.getRoot() + File.separator + "TempPrefs.json";
+        UserPrefs original = new UserPrefs(pefsFilePath);
         original.setGuiSettings(1200, 200, 0, 2);
 
-        String pefsFilePath = testFolder.getRoot() + File.separator + "TempPrefs.json";
         UserPrefsStorage userPrefsStorage = new UserPrefsStorage(pefsFilePath);
 
         //Try writing when the file doesn't exist

@@ -19,13 +19,12 @@ public class UserPrefsStorage implements FixedStorage<UserPrefs> {
 
     @Override
     public UserPrefs read() throws DataConversionException {
-        return JsonUtil.readJsonFile(filePath, UserPrefs.class)
-            .orElse(new UserPrefs());
+        assert filePath != null;
+        return JsonUtil.readJsonFile(filePath, UserPrefs.class).get();
     }
 
     @Override
     public void save(UserPrefs userPrefs) throws IOException {
         JsonUtil.saveJsonFile(userPrefs, filePath);
     }
-
 }
